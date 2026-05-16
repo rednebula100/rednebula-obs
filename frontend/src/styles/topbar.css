@@ -1,0 +1,17 @@
+.topbar {
+  position: sticky; top: 0; z-index: 20; height: 44px;
+  border-bottom: 1px solid var(--bd); background: var(--bg-1);
+  display: grid; grid-template-columns: auto 1fr auto auto; gap: 24px;
+  align-items: center; padding: 0 20px;
+}
+.topbar-brand { font-family: var(--mono); font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--txt); white-space: nowrap; }
+
+.topnav { display: flex; }
+.topnav a { font-family: var(--mono); font-size: 11.5px; font-weight: 400; letter-spacing: 0.05em; color: var(--mut); padding: 0 14px; height: 44px; display: flex; align-items: center; transition: color 120ms linear; }
+.topnav a:hover { color: var(--txt); }
+
+.topbar-status { display: flex; align-items: center; gap: 8px; }
+.topbar-pulse  { width: 6px; height: 6px; background: var(--ok); border-radius: 50%; animation: pulse 2.2s ease-in-out infinite; flex-shrink: 0; }
+.topbar-badge  { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--txt); padding: 3px 8px; border: 1px solid var(--bd-1); }
+
+@media (max-width: 980px) { .topnav { display: none; } }

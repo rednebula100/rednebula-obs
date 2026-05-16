@@ -1,0 +1,13 @@
+.log-ticker { border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd); overflow: hidden; height: 30px; display: flex; align-items: center; }
+.ticker-track { display: flex; align-items: center; white-space: nowrap; animation: ticker-scroll 32s linear infinite; }
+.ticker-item { display: inline-flex; align-items: center; gap: 18px; padding: 0 28px 0 0; }
+.ticker-dot  { width: 4px; height: 4px; background: var(--accent); flex-shrink: 0; }
+.ticker-line { font-family: var(--mono); font-size: 12.5px; color: var(--mut); }
+.ticker-line .t-status         { margin-right: 12px; }
+.ticker-line .t-status-LIVE    { color: var(--ok); }
+.ticker-line .t-status-WIP     { color: var(--warn); }
+.ticker-line .t-status-ALPHA   { color: var(--accent-b); }
+.ticker-line .t-status-ARCHIVED{ color: var(--dim); }
+.ticker-line .t-name { color: var(--txt); margin-right: 8px; }
+.ticker-line .t-meta { color: var(--dim); }
+@keyframes ticker-scroll { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }

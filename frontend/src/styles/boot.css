@@ -1,0 +1,13 @@
+.boot { position: fixed; inset: 0; z-index: 9999; background: #06070a; padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; transition: opacity 350ms ease; }
+.boot::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,0.012) 3px 4px); pointer-events: none; }
+
+.boot-line { display: grid; grid-template-columns: 78px 1fr 60px; gap: 18px; color: var(--txt); opacity: 0; transform: translateX(-4px); }
+.boot-line.visible { opacity: 1; transform: translateX(0); transition: opacity 120ms ease-out, transform 120ms ease-out; }
+.boot-ts   { color: var(--dim); }
+.boot-msg .ok   { color: var(--ok); }
+.boot-msg .warn { color: var(--warn); }
+.boot-msg .err  { color: var(--accent-b); }
+.boot-msg .dim  { color: var(--dim); }
+.boot-code { color: var(--dim); text-align: right; }
+
+.boot-cursor { display: inline-block; width: 6px; height: 11px; background: var(--accent); animation: blink 1s steps(2) infinite; vertical-align: middle; margin-left: 4px; }

@@ -1,0 +1,22 @@
+name               = "rednebula-obs"
+main               = "src/index.js"
+compatibility_date = "2024-09-23"
+
+# Set secrets (never commit values):
+#   wrangler secret put ADMIN_KEY
+#   wrangler secret put GITHUB_TOKEN
+
+[[kv_namespaces]]
+binding = "KV"
+id      = "cc750a572e604f86a4071fa5bee00de2"
+
+[[d1_databases]]
+binding       = "DB"
+database_name = "rednebula-obs"
+database_id   = "527dfe95-b50f-497e-9447-fd4b597884ff"
+
+workers_dev  = true
+preview_urls = false
+
+[dev]
+port = 8787

@@ -1,0 +1,27 @@
+.tweaks { position: fixed; right: 16px; bottom: 16px; z-index: 300; width: 280px; max-height: calc(100vh - 32px); background: rgba(250,249,247,0.78); backdrop-filter: blur(24px); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+
+.tweaks-hd { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid rgba(0,0,0,0.12); cursor: grab; user-select: none; }
+.tweaks-hd-label { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.5); }
+.tweaks-hd-close { font-size: 16px; color: rgba(0,0,0,0.35); cursor: pointer; transition: color 120ms; }
+.tweaks-hd-close:hover { color: rgba(0,0,0,0.7); }
+
+.tweaks-body { overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 14px; }
+.tweak-group-label { font-family: var(--mono); font-size: 9.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.4); margin-bottom: 6px; }
+.tweak-row   { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.tweak-label { font-family: var(--mono); font-size: 11px; color: rgba(0,0,0,0.7); }
+
+.tweak-pills { display: flex; gap: 2px; }
+.tweak-pill  { padding: 2px 8px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; color: rgba(0,0,0,0.45); border: 1px solid rgba(0,0,0,0.15); background: transparent; cursor: pointer; border-radius: 2px; transition: color 120ms, background 120ms, border-color 120ms; }
+.tweak-pill.active { color: #fff; background: var(--accent); border-color: var(--accent-d); }
+
+.tweak-swatches { display: flex; gap: 6px; }
+.tweak-swatch   { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: border-color 120ms; }
+.tweak-swatch.active { border-color: rgba(0,0,0,0.5); }
+
+.tweak-toggle { width: 32px; height: 18px; background: rgba(0,0,0,0.15); border-radius: 9px; position: relative; cursor: pointer; transition: background 200ms; flex-shrink: 0; }
+.tweak-toggle.on { background: var(--accent); }
+.tweak-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: white; border-radius: 50%; transition: transform 200ms; }
+.tweak-toggle.on::after { transform: translateX(14px); }
+
+.tweaks-trigger { position: fixed; right: 16px; bottom: 16px; z-index: 299; display: flex; align-items: center; gap: 6px; padding: 6px 10px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--mut); border: 1px solid var(--bd-1); background: var(--bg-1); cursor: pointer; transition: color 120ms; }
+.tweaks-trigger:hover { color: var(--txt); }
