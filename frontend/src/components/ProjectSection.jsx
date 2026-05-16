@@ -63,7 +63,7 @@ export default function ProjectSection({ accentHex, projects }) {
   const sortIcon = (col) => col !== sortCol ? '⇅' : sortDir === 'asc' ? '▲' : '▼'
 
   // Active filter drives the scope observation mode
-  const scopeMode = activeType
+  const scopeMode = activeType === 'ALL' ? (focused?.type ?? 'ALL') : activeType
 
   return (
     <section className="sect" id="s01">
@@ -98,7 +98,9 @@ export default function ProjectSection({ accentHex, projects }) {
 
       {/* Scope + content */}
       <div className="scope-wrap">
-        <div className="scope-sticky">
+        <div className="scope-sticky"
+          onMouseEnter={() => clearTimeout(hoverTimer.current)}
+          onMouseLeave={onRowLeave}>
           <Scope
             project={focused}
             accent={accentHex}

@@ -1,13 +1,13 @@
 import { Hono } from 'hono'
 
-const ALLOWED_FIELDS = ['name', 'description', 'type', 'status', 'live_url', 'repo_url']
+const ALLOWED = ['type', 'sub', 'mag', 'seed', 'ra', 'dec', 'stack', 'override_status']
 
 const admin = new Hono()
 
 admin.get('/projects', async (c) => {
   try {
     const { results } = await c.env.DB.prepare(
-      'SELECT * FROM projects ORDER BY id'
+      'SELECT * FROM project_meta ORDER BY repo_name'
     ).all()
     return c.json({ success: true, data: results, error: null })
   } catch (e) {
@@ -15,51 +15,55 @@ admin.get('/projects', async (c) => {
   }
 })
 
+// Upsert metadata for a repo
 admin.post('/projects', async (c) => {
   try {
-    const { id, name, description, type, status, live_url, repo_url } = await c.req.json()
-    if (!id || !name || !type || !status) {
-      return c.json({ success: false, data: null, error: 'id, name, type, status required' }, 400)
+    const body = await c.req.json()
+    const { repo_name, type = 'WEB', sub, mag, seed, ra, dec, stack = '[]', override_status } = body
+    if (!repo_name) {
+      return c.json({ success: false, data: null, error: 'repo_name required' }, 400)
     }
 
     await c.env.DB.prepare(
-      `INSERT INTO projects (id, name, description, type, status, live_url, repo_url)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`
-    ).bind(id, name, description ?? null, type, status, live_url ?? null, repo_url ?? null).run()
+      `INSERT INTO project_meta (repo_name, type, sub, mag, seed, ra, dec, stack, override_status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT (repo_name) DO UPDATE SET
+         type = excluded.type, sub = excluded.sub, mag = excluded.mag,
+         seed = excluded.seed, ra = excluded.ra, dec = excluded.dec,
+         stack = excluded.stack, override_status = excluded.override_status`
+    ).bind(repo_name, type, sub ?? null, mag ?? null, seed ?? null, ra ?? null, dec ?? null, stack, override_status ?? null).run()
 
-    return c.json({ success: true, data: { id }, error: null }, 201)
+    return c.json({ success: true, data: { repo_name }, error: null }, 201)
   } catch (e) {
     return c.json({ success: false, data: null, error: e.message }, 500)
   }
 })
 
-admin.patch('/projects/:id', async (c) => {
-  const { id } = c.req.param()
+admin.patch('/projects/:repo_name', async (c) => {
+  const { repo_name } = c.req.param()
   try {
     const body = await c.req.json()
-    const updates = Object.entries(body).filter(([k]) => ALLOWED_FIELDS.includes(k))
+    const updates = Object.entries(body).filter(([k]) => ALLOWED.includes(k))
     if (updates.length === 0) {
       return c.json({ success: false, data: null, error: 'No valid fields to update' }, 400)
     }
 
     const setClauses = updates.map(([k]) => `${k} = ?`).join(', ')
-    const values     = updates.map(([, v]) => v)
-
     await c.env.DB.prepare(
-      `UPDATE projects SET ${setClauses}, updated_at = datetime('now') WHERE id = ?`
-    ).bind(...values, id).run()
+      `UPDATE project_meta SET ${setClauses} WHERE repo_name = ?`
+    ).bind(...updates.map(([, v]) => v), repo_name).run()
 
-    return c.json({ success: true, data: { id }, error: null })
+    return c.json({ success: true, data: { repo_name }, error: null })
   } catch (e) {
     return c.json({ success: false, data: null, error: e.message }, 500)
   }
 })
 
-admin.delete('/projects/:id', async (c) => {
-  const { id } = c.req.param()
+admin.delete('/projects/:repo_name', async (c) => {
+  const { repo_name } = c.req.param()
   try {
-    await c.env.DB.prepare('DELETE FROM projects WHERE id = ?').bind(id).run()
-    return c.json({ success: true, data: { id }, error: null })
+    await c.env.DB.prepare('DELETE FROM project_meta WHERE repo_name = ?').bind(repo_name).run()
+    return c.json({ success: true, data: { repo_name }, error: null })
   } catch (e) {
     return c.json({ success: false, data: null, error: e.message }, 500)
   }

@@ -7,12 +7,13 @@ export function rateLimit(limit = 30) {
     const bucket = Math.floor(Date.now() / WINDOW_MS)
     const key    = `ratelimit:${ip}:global:${bucket}`
 
-    const count = parseInt(await c.env.KV.get(key) ?? '0', 10)
+    let count = 0
+    try { count = parseInt(await c.env.KV.get(key) ?? '0', 10) } catch {}
     if (count >= limit) {
       return c.json({ success: false, data: null, error: 'Rate limit exceeded' }, 429)
     }
 
-    await c.env.KV.put(key, String(count + 1), { expirationTtl: BUCKET_TTL })
+    try { await c.env.KV.put(key, String(count + 1), { expirationTtl: BUCKET_TTL }) } catch {}
     await next()
   }
 }

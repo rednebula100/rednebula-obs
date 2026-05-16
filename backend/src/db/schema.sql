@@ -1,23 +1,19 @@
 DROP TABLE IF EXISTS daily_views;
 DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS project_meta;
 
-CREATE TABLE projects (
-  id          TEXT PRIMARY KEY,
-  name        TEXT NOT NULL,
-  sub         TEXT,
-  description TEXT,
-  type        TEXT NOT NULL CHECK(type IN ('GAME','WEB','LIB','TOOL')),
-  status      TEXT NOT NULL CHECK(status IN ('LIVE','WIP','ALPHA','ARCHIVED')),
-  year        INTEGER,
-  mag         REAL,
-  seed        REAL,
-  ra          TEXT,
-  dec         TEXT,
-  stack       TEXT NOT NULL DEFAULT '[]',
-  live_url    TEXT,
-  repo_url    TEXT,
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+-- Extra metadata for GitHub repos.
+-- If a repo has no row here it still shows up with auto-generated defaults.
+CREATE TABLE project_meta (
+  repo_name       TEXT PRIMARY KEY,
+  type            TEXT NOT NULL DEFAULT 'WEB' CHECK(type IN ('GAME','WEB','LIB','TOOL')),
+  sub             TEXT,
+  mag             REAL,
+  seed            REAL,
+  ra              TEXT,
+  dec             TEXT,
+  stack           TEXT NOT NULL DEFAULT '[]',
+  override_status TEXT CHECK(override_status IN ('LIVE','WIP','ALPHA','ARCHIVED') OR override_status IS NULL)
 );
 
 CREATE TABLE daily_views (

@@ -22,7 +22,7 @@
 .scope-wrap { display: grid; grid-template-columns: 600px 1fr; }
 
 /* ── table ── */
-.ptable-wrap { overflow-x: auto; }
+.ptable-wrap { overflow-x: visible; }
 .ptable { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
 
 .ptable thead th {
