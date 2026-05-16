@@ -12,14 +12,13 @@ import LogTicker      from './components/LogTicker.jsx'
 import Footer         from './components/Footer.jsx'
 import Terminal       from './components/Terminal.jsx'
 import Tweaks         from './components/Tweaks.jsx'
-import { PROJECTS_MOCK }  from './data/mock.js'
 import { fetchProjects, recordView } from './data/api.js'
 
 export default function App() {
   const [booted,     setBooted]     = useState(false)
   const [tweaksOpen, setTweaksOpen] = useState(false)
   const [accent,     setAccent]     = useState('#d97070')
-  const [projects,   setProjects]   = useState(PROJECTS_MOCK)
+  const [projects,   setProjects]   = useState([])
   const [loading,    setLoading]    = useState(true)
 
   const handleBoot = useCallback(() => setBooted(true), [])

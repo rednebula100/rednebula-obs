@@ -1,8 +1,6 @@
-import { PROJECTS_MOCK } from './mock.js'
 import { api } from '../api/client.js'
 
-// Synchronous initial value — replaced after fetchProjects() resolves.
-export let PROJECTS = PROJECTS_MOCK
+export let PROJECTS = []
 
 export async function fetchProjects() {
   const data = await api.getProjects()

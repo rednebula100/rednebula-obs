@@ -35,26 +35,5 @@ views.post('/:id', async (c) => {
   }
 })
 
-views.get('/', async (c) => {
-  try {
-    const { results } = await c.env.DB.prepare('SELECT id FROM projects').all()
-
-    const targets = [
-      { key: 'homepage', kvKey: 'views:homepage' },
-      ...results.map(p => ({ key: p.id, kvKey: `views:${p.id}` })),
-    ]
-
-    const pairs = await Promise.all(
-      targets.map(async ({ key, kvKey }) => {
-        const count = parseInt(await c.env.KV.get(kvKey) ?? '0', 10)
-        return [key, count]
-      })
-    )
-
-    return c.json({ success: true, data: Object.fromEntries(pairs), error: null })
-  } catch (e) {
-    return c.json({ success: false, data: null, error: e.message }, 500)
-  }
-})
 
 export default views
